@@ -1,111 +1,253 @@
-@extends('frontend.master')
-@section('content')
-    
+<!doctype html>
+<html lang="en">
 
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="{{asset('Frontend/assets/img/header/favicon_io/android-chrome-192x192.png')}}">
 
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="{{asset('Frontend/assets/img/header/TOLETX-LOGO-2.ai')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!--Custom CSS for header  -->
+
+    <link rel="stylesheet" href="{{asset('Frontend/assets/css/icon.css')}}">
+    <link rel="stylesheet" href="{{asset('Frontend/assets/css/lite.css')}}">
+    <link rel="stylesheet" href="{{asset('Frontend/assets/css/dark.css')}}">
+    <link rel="stylesheet" href="{{asset('Frontend/assets/css/responsive.css')}}">
+    <!-- jQuery CDN -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+
+
+    <script>
+        // Render blocking JS:
+        if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme);
+    </script>
+
+
+    <title>Toletx-Registration</title>
+</head>
+
+<body>
+    @include('frontend.include.header')
+
+    <!-- Section Start -->
+    <section class="pt-5 pb-5">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Contact Us</h2>
-                        <!-- <div class="breadcrumb__option">
-                            <a href="/">Home</a>
-                            <span>Contact Us</span>
-                        </div> -->
+            <div class="row regirstration-row">
+                <div class="container-fluid" id=" ">
+                    <div class="row justify-content-center mt-0">
+                        <div class="registration-form-card-body col-11 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+                            <div class="registration-form-card card px-0 pt-4 pb-0 mt-3 mb-3">
+                                <h2><strong>Sign Up Your User Account</strong></h2>
+                                <p>Fill all form field to go to next step</p>
+                                <div class="row">
+                                    @if ($message = Session::get('success'))
+                                    <div class="alert alert-danger alert-block">
+                                        <button type="button" class="close" data-dismiss="alert">×</button>
+                                        <strong>{{ $message }}</strong>
+                                    </div>
+                                    @endif
+                                    @if ($message = Session::get('success2'))
+                                    <div class="alert alert-danger alert-block">
+                                        <button type="button" class="close" data-dismiss="alert">×</button>
+                                        <strong>{{ $message }}</strong>
+                                    </div>
+                                    @endif
+                                    <div class="col-md-12 mx-0">
+                                        <form method="POST" action="{{ route('register') }}" id="msform" enctype="multipart/form-data">
+                                            @csrf
+                                            <!-- progressbar -->
+                                            <ul class="d-flex justify-content-around " id="progressbar">
+                                                <li class="active" id="account">
+                                                    <strong>Account</strong>
+                                                </li>
+                                                <li id="personal"><strong>Personal</strong></li>
+                                                <li id="confirm"><strong>Finish</strong></li>
+                                            </ul>
+                                            <!-- fieldsets -->
+                                            <fieldset>
+                                                <div class="form-card">
+                                                    <div class="col-md-12">
+                                                        <label for="userName" class="form-label">User Name</label>
+                                                        <input type="text" name="name" class="form-control msform" id="userName" required>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label for="phone" class="form-label">Phone No.</label>
+                                                        <input type="tel" name="phone" value="{{request('phone')}}" class="form-control msform" id="phone" readonly>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label for="email" class="form-label">Email (Optional)</label>
+                                                        <input type="email" name="email" class="form-control msform" id="email">
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="input-group mb-3">
+                                                            <div class="custom-file">
+                                                                <label class="custom-file-label" for="profilePicture">Add Profile Picture (Optional)</label>
+                                                                <br>
+                                                                <input type="file" name="photo" class="custom-file-input" id="profilePicture">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label for="password-field" class="form-label">Password</label>
+                                                        <input type="password" name="password" class="form-control msform" id="password-field"> 
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label for="password-field" class="form-label">Confirm Password</label>
+                                                        <input type="password" name="password_confirmation" class="form-control msform msform" id="password-field-confirm"> 
+                                                    </div>
+                                                    <div class="my-3 password_toggler">
+                                                        <i class="fa fa-eye-slash" id="eye_icon" aria-hidden="true"></i>
+                                                        <span   id="show_hide_password" class="">
+                                                            Show Password
+                                                        </span>
+                                                    </div>
+
+
+
+
+                                                </div>
+                                                <input type="button" name="next" class="next action-button" value="Next Step" />
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="form-card">
+                                                    <h2 class="fs-title">Personal Information</h2>
+
+                                                    <div class="col-12">
+                                                        <label for="fName" class="form-label">Father's Name (Optional)</label>
+                                                        <input type="text" name="father_name" class="form-control msform" id="fName" placeholder="">
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label for="mName" class="form-label">Mother's Name (Optional)</label>
+                                                        <input type="text" name="mother_name" class="form-control msform" id="mName" placeholder="">
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label for="mName" class="form-label">Date of Birth </label>
+                                                        <input class="msform" name="date_of_birth" type="date" name="dob" placeholder=" " />
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label for="address" class="form-label">Address (Optional)</label>
+                                                        <input type="text" class="form-control msform" name="address" id=" address" name="address" />
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label for="nationality" class="form-label">Nationality (Optional)</label>
+                                                        <input type="text" name="nationality" class="form-control msform" id="nationality">
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label for="inputState" class="form-label">Gender</label>
+                                                        <select id="inputState" name="gender" class="form-select msform">
+                                                            <option selected>Gender</option>
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female"> Female</option>
+                                                            <option value="Other"> Other</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-12 my-2">
+                                                        <label for="inputState" class="form-label">Choose Security Question (Optional)</label>
+                                                        <select id="inputState" name="security_question" class="form-select msform">
+                                                            <option selected>Choose Security Question</option>
+                                                            <option value="favourite_color">Your Favourite Color?</option>
+                                                            <option value="favourite_pet"> Your Favourite Pet?</option>
+                                                            <option value="favourite_place"> Your Favourite Place?</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-12 mt-2">
+                                                        <label for="favourite_ans" class="form-label">Type Your Answer</label>
+                                                        <input type="text" name="favourite_ans" class="form-control msform" id="favourite_ans">
+                                                    </div>
+
+                                                    <div class="col-12  mt-3 mb-3">
+                                                        <div class="custom-file" data-toggle="tooltip" data-placement="top" title="Upload Scanned Copy of your Birth Certificate/NID/Driving License/Passport">
+                                                            <label class="custom-file-label" for="inputGroupFile03">Add Photo ID Front</label>
+                                                            <input type="file" name="n_photo1" class="custom-file-input" id="inputGroupFile03">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12  mt-3 mb-3">
+                                                        <div class="custom-file" data-toggle="tooltip" data-placement="top" title="Upload Scanned Copy of your Birth Certificate/NID/Driving License/Passport">
+                                                            <label class="custom-file-label" for="inputGroupFile03">Add Photo ID Back</label>
+                                                            <input type="file" name="n_photo2" class="custom-file-input" id="inputGroupFile03">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 pl-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input  ml-1 mr-1" type="checkbox" name="trems" value="1" id="gridCheck" required>
+                                                            <label class="form-check-label" for="gridCheck">
+                                                                Agree to our <a href="#">terms & conditions</a>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                                                <input type="submit"  class="next action-button" value="Submit" />
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Breadcrumb Section End -->
-    <!-- Map Begin -->
-    <div class="map">
+    <!-- Section End -->
 
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.7376232832735!2d90.42264936049055!3d23.7923557839411!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c7bc822af0fb%3A0x2f850365c7070111!2sConfidence%20Center%2C%2001%20Bayzid%20Rd%2C%20Dhaka%201212!5e0!3m2!1sen!2sbd!4v1659433254127!5m2!1sen!2sbd" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <div class="map-inside">
-            <i class="icon_pin"></i>
-            <div class="inside-widget">
-                <h4>Sahajadpur, Gulshan, Dhaka. </h4>
-                <ul>
-                    <li>Add: F14A, L 14, Confidence Center (Building 2), Sahajadpur, Gulshan, Dhaka. </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!-- Map End -->
-    <!-- Contact Section Begin -->
-    <section class="contact spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-12 text-center">
-                    <div class="contact__widget">
-                        <span class="icon_phone"></span>
-                        <h4>Phone</h4>
-                        <p>+02 44801158</p>
-                        <p>01846888818</p>
-                        <p>01673860256</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 text-center">
-                    <div class="contact__widget">
-                        <span class="icon_pin_alt"></span>
-                        <h4>Address</h4>
-                        <p>
-                            House 1124-1125, Road 11, Avenue 8A, DOHS Mirpur, Dhaka.
-                            <br>
-                            F14A, L 14, Confidence Center (Building 2), Sahajadpur, Gulshan, Dhaka.
-                            <br>
-                            House 64, Road 04, Block B, Chandgaon R/A, Chattogram.
-                        </p>
-                    </div>
-                </div>
-                <!-- <div class="col-lg-3 col-md-3 col-sm-6 text-center">
-                    <div class="contact__widget">
-                        <span class="icon_clock_alt"></span>
-                        <h4>Open time</h4>
-                        <p>10:00 am to 23:00 pm</p>
-                    </div>
-                </div> -->
-                <div class="col-lg-4 col-md-4 col-sm-12 text-center">
-                    <div class="contact__widget">
-                        <span class="icon_mail_alt"></span>
-                        <h4>Email</h4>
-                        <p>water@greenbudbd.com</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Contact Section End -->
+    @include('frontend.include.footer')
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
 
 
-    <!-- Contact Form Begin -->
-    <div class="contact-form spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="contact__form__title">
-                        <h2>Leave Message</h2>
-                    </div>
-                </div>
-            </div>
-            <form action="#">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <input type="text" placeholder="Your name">
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <input type="text" placeholder="Your Email">
-                    </div>
-                    <div class="col-lg-12 text-center">
-                        <textarea placeholder="Your message"></textarea>
-                        <button type="submit" class="site-btn">SEND MESSAGE</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- Contact Form End -->
-    @endsection
+    <script src="{{asset('Frontend/assets/js/stepper-form.js')}}"></script>
+
+    <script>
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+ 
+
+    <script>
+        $(document).ready(function () {
+                $(".password_toggler").on("click", function (event) {
+                    // event.preventDefault();
+                    if ($("#password-field").attr("type") == "text") {
+
+                        $("#password-field").attr("type", "password");
+                        $("#password-field-confirm ").attr("type", "password");
+                        $("#eye_icon").removeClass("fa-eye");
+                        $("#eye_icon").addClass("fa-eye-slash"); 
+                        $("#show_hide_password").text("Show Password");
+
+                    }
+                     else if ($("#password-field").attr("type") == "password") {
+
+                        $("#password-field").attr("type", "text");
+                        $("#password-field-confirm ").attr("type", "text"); 
+                        $("#eye_icon").removeClass("fa-eye-slash");
+                        $("#eye_icon").addClass("fa-eye"); 
+                        $("#show_hide_password").text("Hide Password");
+
+                    }
+                });
+            });
+    </script>
+
+
+
+</body>
+</html>

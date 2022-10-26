@@ -1,231 +1,689 @@
-@extends('frontend.master')
+@extends('frontend.master.master')
 @section('content')
-    <div id="page-content">
-        <!--MainContent-->
-        <div id="MainContent" class="main-content" role="main">
-            <div class="container">
-                @if(Session::has('success'))
-                    <div class="alert alert-success">{{Session::get('success')}}</div>
-                @endif
-                @if(Session::has('fail'))
-                    <div class="alert alert-danger">{{Session::get('fail')}}</div>
-                @endif
-            
-                <div class="tabs-listing">
-                    <ul class="nav nav-tabs product-tabs mb-3" id="pills-tab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link tablink {{request()->is('profile') ? 'active' : ''}}" href="{{url('/profile')}}" role="tab" aria-controls="pills-home" aria-selected="true">Profile Information </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link tablink {{request()->is('change_password') ? 'active' : ''}}" href="{{url('/change_password')}}" role="tab" aria-controls="pills-profile" aria-selected="false">Change Password</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link tablink {{request()->is('my_order') ? 'active' : ''}}" href="{{url('/my_order')}}" role="tab" aria-controls="pills-contact" aria-selected="false">View My Order</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane {{request()->is('profile') ? 'active' : ''}}" id="{{url('/profile')}}" role="tabpanel" aria-labelledby="pills-home-tab">
-                        <div  class=" ">
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <th scope="col">Name</th>
-                                        <td>{{$user->first_name." ".$user->last_name}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Email</th>
-                                        <td>{{$user->email}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Phone</th>
-                                        <td>{{$user->phone}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+<title>Profile</title>
+<!-- Header Start -->
+<header class="mt-4">
+    <div class="container-fluid">
+        <div class="row main-search">
+        </div>
+        <div class="row">
+            <div class="col-md-12 ">
+
+                <ul class="nav nav-tabs " id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">My
+                            Information</button>
+                    </li>
+
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="customer_need-tab" data-bs-toggle="tab" data-bs-target="#customer_need" type="button" role="tab" aria-controls="customer_need" aria-selected="false">Post List
+                        </button>
+                    </li>
+
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane mt-2 fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-6 ">
+                                <div class="p-3 py-5">
+                                    <div class="row mt-2">
+                                        @foreach($users as $list)
+                                        <div class="col-md-12">
+                                            <label class="labels">
+                                                <i class="icofont-hotel-boy"></i>
+                                                <span class="info">{{$list->slug}}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="labels">
+                                                <i class="icofont-hotel-boy"></i>
+                                                <span class="info-type">Name : </span>
+                                                <span class="info">{{$list->name}}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="labels">
+                                                <i class="icofont-user-male"></i>
+                                                <span class="info-type">Father's Name :</span>
+                                                <span class="info">{{$list->father_name}}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="labels">
+                                                <i class="icofont-user-female"></i>
+                                                <span class="info-type">Mothers's Name :</span>
+                                                <span class="info">{{$list->mother_name}}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="labels">
+                                                <i class="icofont-phone"></i>
+                                                <span class="info-type">Phone Number :</span>
+                                                <span class="info">{{$list->phone}}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="labels">
+                                                <i class="icofont-ui-calendar"></i>
+                                                <span class="info-type">Date of Birth :</span>
+                                                <span class="info">{{$list->date_of_birth}}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="labels">
+                                                <i class="icofont-ui-calendar"></i>
+                                                <span class="info-type">Gender :</span>
+                                                <span class="info">{{$list->gender}}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="labels">
+                                                <i class="icofont-ui-calendar"></i>
+                                                <span class="info-type">Address :</span>
+                                                <span class="info">{{$list->address}}</span>
+                                            </label>
+                                        </div>
+
+                                        <a href="{{route('user_edit',$list->id)}}" class="btn btn-sm btn-primary mt-3">Update Profile</a>
+                                        @endforeach
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="tab-pane {{request()->is('change_password') ? 'active' : ''}}" id="{{url('/change_password')}}" role="tabpanel" aria-labelledby="pills-profile-tab">
-                       <div class="contact-form  pt-0">
-                            <div class="container">
-                            <form method="post" action="{{route('change_password')}}" id="new-review-form" class="new-review-form">
-                        @csrf
-                            <input type="hidden" class="form-control" name="user_id" value="{{$user->id}}">
-                            <div class="my-3 ">
-                                <label class="spr-form-label" for="old_password">Old Password</label>
-                                <input class="spr-form-input spr-form-input-text " id="old_password" type="password" name="old_pass" value="" placeholder="Enter Your Old Password">
-                                <span class="text-danger mt-3">@error('old_pass') {{$message}} @enderror</span>
+
+                    <div class="tab-pane mt-2 fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                        <div class="p-3 py-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="text-right">Payment Information</h4>
                             </div>
-                            <div class="my-3 ">
-                                <label class="spr-form-label" for="new_password">New Password</label>
-                                <input class="spr-form-input spr-form-input-text " id="new_password" type="password" name="new_pass" value="" placeholder="Enter Your New Password">
-                                <span class="text-danger mt-3">@error('new_pass') {{$message}} @enderror</span>
-                            </div>
-                            <div class="my-3 ">
-                                <label class="spr-form-label" for="confirm_new_password">Confirm New Password</label>
-                                <input class="spr-form-input spr-form-input-text " id="confirm_new_password" type="password" name="cnew_pass" value="" placeholder="Enter Your Confirm New Password">
-                                <span class="text-danger mt-3">@error('cnew_pass') {{$message}} @enderror</span>
+                            <div class="row mt-2">
+                                @foreach($payments as $payment)
+                                <div class="col-md-12">
+                                    <label class="labels">
+                                        <i class="icofont-hotel-boy"></i>
+                                        <span class="info-type">Name : {{$payment->Payment_relationBetweenUser->name}}</span>
+
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">
+                                        <i class="icofont-user-male"></i>
+                                        <span class="info-type">Package Type : {{$payment->package_type}}</span>
+                                        <br>
+                                        <span class="info">Time : {{$payment->duration}}</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">
+                                        <i class="icofont-user-female"></i>
+
+                                        <span class="info-type">Pay Amount : {{$payment->amount}} bdt/-</span>
+
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">
+                                        <i class="icofont-phone"></i>
+                                        <span class="info-type">Phone Number : {{$payment->Payment_relationBetweenUser->phone}}</span>
+
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">
+                                        <i class="icofont-ui-calendar"></i>
+                                        <span class="info-type">Date of Birth : {{$payment->Payment_relationBetweenUser->date_of_birth}}</span>
+
+                                    </label>
+                                </div>
+                                @endforeach
                             </div>
 
-                            <input type="submit" class=" btn btn-primary text-white" value="Confirm">
-                        </form>
-                            </div>
-                       </div>
+                        </div>
                     </div>
-                    <div class="tab-pane {{request()->is('my_order') ? 'active' : ''}}" id="{{url('/my_order')}}" role="tabpanel" aria-labelledby="pills-contact-tab">
-                            <div class="wishlist-table table-content table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th class="product-price text-center alt-font">Order No.</th>
-                                                <th class="stock-status text-center alt-font">Order Status</th>
-                                                <th class="product-subtotal text-center alt-font">Details</th>
-                                                <th class="product-subtotal text-center alt-font">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($orders as $order)
-                                            <tr>
-                                                <td class="product-price text-center"><span class="amount">{{$order->id}}</span></td>
-                                                <td class="stock text-center">
-                                                    @if($order->order_status == 0)
-                                                    <span class="">Peinding</span>
-                                                    @else
-                                                    <span class="">Delivered</span>
-                                                    @endif
-                                                </td>
-                                                <td class="product-subtotal text-center">
-                                                    <button type="button" class="btn btn-small view_order" value="{{$order->id}}">View</button>
-                                                </td>
-                                                <td class="product-subtotal text-center">
-                                                    <button type="button" class="btn btn-small delete_order" value="{{$order->id}}" {{$order->order_status == 0 ? '' :'disabled'}}>Cancel</button>
-                                                </td>
-                                            </tr>
-                                            @endforeach
+                    <div class="tab-pane mt-2 fade" id="customer_need" role="tabpanel" aria-labelledby="customer_need-tab">
 
-                                        </tbody>
-                                    </table>
+                        <div class="row mt-2 ">
+
+                            <div class="post_list ">
+
+                                @foreach($rooms as $room)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/room/details') }}/{{ $room->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/room/edit/') }}/{{ $room->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('room_delete',$room->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+                                            <p class=" ">{{$room->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$room->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+
+
+                                @foreach($bilboards as $bilboard)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/bilboard/details') }}/{{ $bilboard->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/bilboard/edit/') }}/{{ $bilboard->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('bilboard_delete',$bilboard->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$bilboard->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$bilboard->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($communities as $community)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/community/details') }}/{{ $community->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/community/edit/') }}/{{ $community->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('community_delete',$community->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$community->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$community->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($picnics as $picnic)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/picnic/details') }}/{{ $picnic->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/picnic/edit/') }}/{{ $picnic->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('picnic_delete',$picnic->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$picnic->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$picnic->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($ghats as $ghat)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/ghat/details') }}/{{ $ghat->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/ghat/edit/') }}/{{ $ghat->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('ghat_delete',$ghat->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+                                            <p class=" ">{{$ghat->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$ghat->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($swimmings as $swimming)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/swimming/details') }}/{{ $swimming->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/swimming/edit/') }}/{{ $swimming->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('swimmingpool_delete',$swimming->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+                                            <p class=" ">{{$swimming->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$swimming->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($exibutions as $exibution)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/exibution/details') }}/{{ $exibution->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/exibution/edit/') }}/{{ $exibution->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('exibution_center_delete',$exibution->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$exibution->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$exibution->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($factories as $factory)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/factory/details') }}/{{ $factory->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/factory/edit/') }}/{{ $factory->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('factory_delete',$factory->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$factory->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$factory->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($flats as $flat)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/flat/details') }}/{{ $flat->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/flat/edit/') }}/{{ $flat->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('flat_delete',$flat->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+                                            <p class=" ">{{$flat->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$flat->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($hostels as $hostel)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/hostel/details') }}/{{ $hostel->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/hostel/edit/') }}/{{ $hostel->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('hostel_delete',$hostel->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$hostel->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$hostel->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($hotels as $hotel)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/hotel/details') }}/{{ $hotel->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/hotel/edit/') }}/{{ $hotel->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('hotel_delete',$hotel->id)}} " class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$hotel->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$hotel->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($offices as $office)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/office/details') }}/{{ $office->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/office/edit/') }}/{{ $office->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('office_delete',$office->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$office->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$office->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($playgrounds as $playground)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/playground/details') }}/{{ $playground->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/playground/edit/') }}/{{ $playground->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('playground_delete',$playground->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$playground->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$playground->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($ponds as $pond)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/pond/details') }}/{{ $pond->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/pond/edit/') }}/{{ $pond->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('pond_delete',$pond->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+                                            <p class=" ">{{$pond->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$pond->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($retaurants as $retaurant)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/retaurant/details') }}/{{ $retaurant->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/resort/edit/') }}/{{$retaurant->id}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('restuarant_delete',$retaurant->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$retaurant->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$retaurant->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($rooftops as $rooftop)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/rooftop/details') }}/{{ $rooftop->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/rooftop/edit/') }}/{{ $rooftop->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('rooftop_delete',$rooftop->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$rooftop->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$rooftop->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($shootings as $shooting)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/shooting/details') }}/{{ $shooting->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/shooting/edit/') }}/{{ $shooting->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('shooting_delete',$shooting->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$shooting->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$shooting->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($shops as $shop)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/shop/details') }}/{{ $shop->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/shop/edit/') }}/{{ $shop->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('shop_delete',$shop->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+                                            <p class=" ">{{$shop->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$shop->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($lands as $land)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/land/details') }}/{{ $land->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/land/edit/') }}/{{ $land->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('land_delete',$land->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+                                            <p class=" ">{{$land->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$land->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($warehouses as $warehouse)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/warehouse/details') }}/{{ $warehouse->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/warehouse/edit/') }}/{{ $warehouse->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('warehouse_delete',$warehouse->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$warehouse->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$warehouse->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($parkings as $parking)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/parking/details') }}/{{ $parking->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/parking/edit/') }}/{{ $parking->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('parking_spot_delete',$parking->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$parking->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$parking->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @foreach($buildings as $building)
+                                <div class="row p-3 mx-0">
+                                    <div class="col-lg-3 p-0">
+                                        <a href="{{ url('/building/details') }}/{{ $building->id }}" class="btn btn-success btn-lg text-white p-2">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                        </a>
+                                        <a href="{{ url('user/building/edit/') }}/{{ $building->id }}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{{route('building_delete',$building->id)}}" class="btn btn-success btn-lg text-white p-2 ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 px-0">
+                                        <div class="d-flex flex-column flex-wrap">
+
+                                            <p class=" ">{{$building->title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <small class="opacity-50 text-nowrap">{{$building->created_at->diffForHumans()}}</small>
+                                    </div>
+                                </div>
+                                @endforeach
                             </div>
+                        </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
+</header>
+<!-- Header End -->
 
-
-    <!-- Modal for view Order -->
-<div class="modal fade" id="viewOrder" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">View Order <span id="order_no"></span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table class="table text-center align-middle">
-                    <thead>
-                    <tr>
-                        <th scope="col">Product</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Sub Total</th>
-                    </tr>
-                    </thead>
-                    <tbody id="view">
-                        
-                   
-                    </tbody>
-                    <tfoot id="total">
-                        
-                    </tfoot>
-                </table>
-            </div>
-            <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div> -->
-        </div>
-    </div>
-</div>
-
-<!-- Modal for delete order -->
-<div class="modal fade" id="DeleteOrder" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Delete Order</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="{{route('my_order_delete')}}" method="post">
-             @csrf
-             @method('delete')
-                <div class="mb-3 text-center">
-                    <h5 class="text-danger">Are You Sure to Delete This Order?</h5>
-                </div>
-                <input type="text" class="form-control" id="del_order_id" name="deletingId">
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Yes,Delete</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endsection
-
-
-@push('script')    
 <script>
-    $(document).ready(function(){
-
-        window.setTimeout(function(){
-            $(".test").alert('close');
-        },2000);
-
-        $(document).on('click', '.view_order',function(){
-            var order_id = $(this).val();
-            $("#viewOrder").modal('show');
-            $("#order_no").text(order_id);
-            $.ajax({
-                    type:"GET",
-                    url: "/product/order/view/"+order_id,
-                    success: function(response){
-                        console.log("hello");
-
-                        $("#view").html("");
-                        $.each(response.order, function (i,item){
-
-                            $("#view").append('\
-                                <tr>\
-                                    <td>'+item.product_name+'</td>\
-                                    <td><img src="public/uploads/product/'+item.image+'" class="shop_image_view" width="200"></td>\
-                                    <td>'+item.order_quantity+'</td>\
-                                    <td>'+item.sub_total+'</td>\
-                                </tr>\
-                            ');
-                        });
-                        $("#total").html("");
-                        $("#total").append('\
-                            <tr>\
-                                <td colspan="3" style="text-align:end">Sub Total</td>\
-                                <td >'+response.subtotal+'</td>\
-                            </tr>\
-                            <tr>\
-                                <td colspan="3" style="text-align:end">Total</td>\
-                                <td >'+response.subtotal+'</td>\
-                            </tr>\
-                        ');
-
-                    }
-                });
-        });
-
-        $(document).on('click', '.delete_order',function(){
-            var deleteId = $(this).val();
-            $("#DeleteOrder").modal('show');
-            $('#del_order_id').val(deleteId);
-        });
-
-    });
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>
-@endpush
+@endsection

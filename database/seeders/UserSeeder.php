@@ -2,11 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Admin;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
@@ -17,22 +14,23 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        Admin::create([
+        User::create([
+            'name' => 'Admin',
+            'email' => 'toletx@gmail.com',
+            'Phone' => '017',
+            'gender' => 'Male',
+            'date_of_birth' => '10/04/1986',
+            'password' => bcrypt('toletx1234'),
             'role_id' => '1',
-            'first_name' => 'Greenbud',
-            'last_name' => 'Admin',
-            'email' => 'admin@greenbud.com',
-            'phone' => '01*********',
-            // 'password' => '$2y$10$M4AduO5h82AyuwcoRuODWOfNUdVVu419PazHnOuQsoqwIJp.6.XjK',
-            'password' => Hash::make('rootadmin'),
         ]);
         User::create([
+            'name' => 'Rafsan',
+            'email' => 'rafsan@gmail.com',
+            'Phone' => '01',
+            'gender' => 'Male',
+            'date_of_birth' => '10/04/1986',
+            'password' => bcrypt('12'),
             'role_id' => '2',
-            'first_name' => 'Dev',
-            'last_name' => 'User',
-            'email' => 'user@greenbud.com',
-            'phone' => '01988888888',
-            'password' => Hash::make('12'),
         ]);
     }
 }
